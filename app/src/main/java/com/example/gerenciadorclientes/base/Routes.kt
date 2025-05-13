@@ -1,7 +1,11 @@
 package com.example.gerenciadorclientes.base
 
 sealed class Routes(val route: String) {
-    data object TaskList: Routes("taskList")
-    data object TaskCreate: Routes("taskCreate")
-    data object TaskEdit: Routes("taskEdit")
+    data object ClientList: Routes("clientList")
+    data object ClientCreate: Routes("clientCreate")
+    data object ClientEdit: Routes("clientEdit")
+
+    data object ClientDetails: Routes("clientDetails/{clientId}") {
+        fun createRoute(clientId: String) = "clientDetails/$clientId"
+    }
 }
