@@ -73,11 +73,12 @@ class CallScaffold(val navController: NavController, val localData: SharedPrefer
                 when (screen) {
                     Routes.ClientList.route -> ListClientScreen(padding, navController, listClientViewModel)
                     Routes.ClientCreate.route -> CreateClientScreen(padding, navController, createClientViewModel)
-                    Routes.ClientEdit.route -> EditClientScreen(padding, navController, editClientViewModel)
+                    Routes.ClientEdit.route -> {
+                    }
                 }
-
                 additionalContent?.invoke()
             }
         }
     }
+
 }

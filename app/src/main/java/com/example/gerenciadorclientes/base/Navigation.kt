@@ -35,28 +35,23 @@ class Navigation {
                 CallScaffold(navController = navController, localData = localData)
                     .CreateScreen(screen = Routes.ClientCreate.route)
             }
-            composable(Routes.ClientEdit.route) {
-                CallScaffold(navController = navController, localData = localData)
-                    .CreateScreen(screen = Routes.ClientEdit.route)
-            }
             composable(
                 route = Routes.ClientEdit.route,
                 arguments = listOf(navArgument("clientId") { type = NavType.StringType })
             ) { backStackEntry ->
                 val clientId = backStackEntry.arguments?.getString("clientId") ?: ""
-                val viewModel = EditClientViewModel(localData)
-                viewModel.loadClient(clientId)
+                val editViewModel = EditClientViewModel(localData)
+                editViewModel.loadClient(clientId)
 
-                CallScaffold(navController = navController, localData = localData).CreateScreen(
-                    screen = Routes.ClientEdit.route,
-                    additionalContent = {
+                CallScaffold(navController = navController, localData = localData)
+                    .CreateScreen(screen = Routes.ClientEdit.route) {
+                        // Conteúdo extra, que pode ser o EditClientScreen dentro do Scaffold
                         EditClientScreen(
                             paddingValues = PaddingValues(),
                             navController = navController,
-                            viewModel = viewModel
+                            viewModel = editViewModel
                         )
                     }
-                )
             }
 
         }

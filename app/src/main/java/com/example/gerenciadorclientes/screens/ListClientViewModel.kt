@@ -33,4 +33,3 @@ class ListClientViewModel(val localData: SharedPreferences) : ViewModel() {
         setShowDialog(false)
     }
 }
-

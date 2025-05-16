@@ -39,8 +39,7 @@ fun CreateClientScreen(paddingValues: PaddingValues, navController: NavControlle
             value = name,
             onValueChange = { name = it },
             modifier = Modifier.fillMaxWidth(),
-            label = { Text("Nome") },
-            placeholder = { Text("Digite o nome do cliente") }
+            label = { Text("Nome") }
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -50,7 +49,6 @@ fun CreateClientScreen(paddingValues: PaddingValues, navController: NavControlle
             onValueChange = { email = it },
             modifier = Modifier.fillMaxWidth(),
             label = { Text("Email") },
-            placeholder = { Text("Digite o email") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
         )
 
@@ -61,7 +59,6 @@ fun CreateClientScreen(paddingValues: PaddingValues, navController: NavControlle
             onValueChange = { phone = it },
             modifier = Modifier.fillMaxWidth(),
             label = { Text("Telefone") },
-            placeholder = { Text("Digite o telefone") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone)
         )
 
@@ -72,7 +69,6 @@ fun CreateClientScreen(paddingValues: PaddingValues, navController: NavControlle
             onValueChange = { address = it },
             modifier = Modifier.fillMaxWidth(),
             label = { Text("Endereço") },
-            placeholder = { Text("Digite o endereço") },
             maxLines = 3
         )
 
