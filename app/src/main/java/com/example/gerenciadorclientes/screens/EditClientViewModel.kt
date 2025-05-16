@@ -9,7 +9,6 @@ class EditClientViewModel(val localData: SharedPreferences) : ViewModel() {
     private var _client = MutableStateFlow<SharedPreferences.Client?>(null)
     val client: StateFlow<SharedPreferences.Client?> = _client
 
-    // Estados para cada campo
     val name = MutableStateFlow("")
     val email = MutableStateFlow("")
     val phone = MutableStateFlow("")
@@ -22,10 +21,11 @@ class EditClientViewModel(val localData: SharedPreferences) : ViewModel() {
             email.value = client.email
             phone.value = client.phone
             address.value = client.address
+        } ?: run {
+            _client.value = null
         }
     }
 
-    // Método modificado para não receber parâmetros
     fun saveClient() {
         _client.value?.let { currentClient ->
             val updatedClient = currentClient.copy(

@@ -70,7 +70,7 @@ fun ListClientScreen(
                         ClientCard(
                             client = client,
                             onEdit = {
-                                navController.navigate(Routes.ClientEdit.route)
+                                navController.navigate(Routes.ClientEdit.createRoute(client.id))
                             },
                             onDelete = {
                                 viewModel.setShowDialog(true, client.id)
@@ -84,7 +84,6 @@ fun ListClientScreen(
             }
         }
 
-        // FloatingActionButton posicionado corretamente
         FloatingActionButton(
             onClick = { navController.navigate(Routes.ClientCreate.route) },
             modifier = Modifier

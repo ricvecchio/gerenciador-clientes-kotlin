@@ -2,6 +2,7 @@ package com.example.gerenciadorclientes.base
 
 import CallScaffold
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
@@ -12,6 +13,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.gerenciadorclientes.model.SharedPreferences
 import com.example.gerenciadorclientes.screens.ClientDetailsScreen
+import com.example.gerenciadorclientes.screens.EditClientScreen
 import com.example.gerenciadorclientes.screens.EditClientViewModel
 
 class Navigation {
@@ -38,7 +40,7 @@ class Navigation {
                     .CreateScreen(screen = Routes.ClientEdit.route)
             }
             composable(
-                route = Routes.ClientDetails.route,
+                route = Routes.ClientEdit.route,
                 arguments = listOf(navArgument("clientId") { type = NavType.StringType })
             ) { backStackEntry ->
                 val clientId = backStackEntry.arguments?.getString("clientId") ?: ""
@@ -46,12 +48,17 @@ class Navigation {
                 viewModel.loadClient(clientId)
 
                 CallScaffold(navController = navController, localData = localData).CreateScreen(
-                    screen = Routes.ClientDetails.route,
+                    screen = Routes.ClientEdit.route,
                     additionalContent = {
-                        ClientDetailsScreen(navController = navController, viewModel = viewModel)
+                        EditClientScreen(
+                            paddingValues = PaddingValues(),
+                            navController = navController,
+                            viewModel = viewModel
+                        )
                     }
                 )
             }
+
         }
     }
 }
