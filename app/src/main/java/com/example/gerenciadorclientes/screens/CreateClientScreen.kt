@@ -1,5 +1,6 @@
 package com.example.gerenciadorclientes.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -10,6 +11,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,16 +20,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 
 @Composable
-fun CreateClientScreen(paddingValues: PaddingValues, navController: NavController, viewModel: CreateClientViewModel) {
-    var name by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
-    var phone by remember { mutableStateOf("") }
-    var address by remember { mutableStateOf("") }
+fun CreateClientScreen(
+    paddingValues: PaddingValues,
+    navController: NavController,
+    viewModel: CreateClientViewModel
+) {
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier
@@ -36,56 +41,70 @@ fun CreateClientScreen(paddingValues: PaddingValues, navController: NavControlle
             .verticalScroll(rememberScrollState())
     ) {
         OutlinedTextField(
-            value = name,
-            onValueChange = { name = it },
-            modifier = Modifier.fillMaxWidth(),
-            label = { Text("Nome") }
+            value = viewModel.name.value,
+            onValueChange = viewModel::setName,
+            label = { Text("Nome") },
+            isError = viewModel.nameError.value != null,
+            modifier = Modifier.fillMaxWidth()
         )
+        viewModel.nameError.value?.let {
+            Text(text = it, color = Color.Red, style = MaterialTheme.typography.bodySmall)
+        }
 
         Spacer(modifier = Modifier.height(8.dp))
 
         OutlinedTextField(
-            value = email,
-            onValueChange = { email = it },
-            modifier = Modifier.fillMaxWidth(),
+            value = viewModel.email.value,
+            onValueChange = viewModel::setEmail,
             label = { Text("Email") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
+            isError = viewModel.emailError.value != null,
+            modifier = Modifier.fillMaxWidth()
         )
+        viewModel.emailError.value?.let {
+            Text(text = it, color = Color.Red, style = MaterialTheme.typography.bodySmall)
+        }
 
         Spacer(modifier = Modifier.height(8.dp))
 
         OutlinedTextField(
-            value = phone,
-            onValueChange = { phone = it },
-            modifier = Modifier.fillMaxWidth(),
+            value = viewModel.phone.value,
+            onValueChange = viewModel::setPhone,
             label = { Text("Telefone") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone)
+            isError = viewModel.phoneError.value != null,
+            modifier = Modifier.fillMaxWidth()
         )
+        viewModel.phoneError.value?.let {
+            Text(text = it, color = Color.Red, style = MaterialTheme.typography.bodySmall)
+        }
 
         Spacer(modifier = Modifier.height(8.dp))
 
         OutlinedTextField(
-            value = address,
-            onValueChange = { address = it },
-            modifier = Modifier.fillMaxWidth(),
+            value = viewModel.address.value,
+            onValueChange = viewModel::setAddress,
             label = { Text("Endereço") },
-            maxLines = 3
+            isError = viewModel.addressError.value != null,
+            modifier = Modifier.fillMaxWidth()
         )
+        viewModel.addressError.value?.let {
+            Text(text = it, color = Color.Red, style = MaterialTheme.typography.bodySmall)
+        }
 
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
             onClick = {
-                viewModel.setName(name)
-                viewModel.setEmail(email)
-                viewModel.setPhone(phone)
-                viewModel.setAddress(address)
-                viewModel.saveClient()
-                navController.popBackStack()
+                val success = viewModel.saveClient {
+                    navController.popBackStack()
+                    Toast.makeText(context, "Cliente salvo com sucesso!", Toast.LENGTH_SHORT).show()
+                }
+                if (!success) {
+                    Toast.makeText(context, "Por favor, preencha todos os campos obrigatórios", Toast.LENGTH_SHORT).show()
+                }
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Cadastrar Cliente")
+            Text("Salvar")
         }
     }
 }
