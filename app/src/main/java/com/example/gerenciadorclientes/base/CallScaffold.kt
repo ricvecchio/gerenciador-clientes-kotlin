@@ -107,20 +107,18 @@ class CallScaffold(val navController: NavController, val localData: SharedPrefer
         ) { padding ->
             Box(modifier = Modifier
                 .padding(padding)
-                .padding(horizontal = 16.dp, vertical = 8.dp)) {
+                .padding(horizontal = 16.dp, vertical = 0.dp)) {
                 when (screen) {
                     Routes.ClientList.route -> ListClientScreen(
                         padding,
                         navController,
                         listClientViewModel
                     )
-
                     Routes.ClientCreate.route -> CreateClientScreen(
                         padding,
                         navController,
                         createClientViewModel
                     )
-
                     Routes.ClientEdit.route -> {
                         additionalContent?.invoke()
                     }
