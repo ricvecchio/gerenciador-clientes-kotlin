@@ -1,9 +1,8 @@
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
@@ -17,14 +16,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.gerenciadorclientes.R
 import com.example.gerenciadorclientes.base.Routes
@@ -45,80 +41,65 @@ class CallScaffold(val navController: NavController, val localData: SharedPrefer
     fun CreateScreen(screen: String, additionalContent: @Composable (() -> Unit)? = null) {
         Scaffold(
             topBar = {
-                Column(
+                TopAppBar(
+                    title = {
+                        Text(
+                            text = when (screen) {
+                                Routes.ClientList.route -> "Lista de Clientes"
+                                Routes.ClientCreate.route -> "Cadastrar Cliente"
+                                Routes.ClientEdit.route -> "Editar Cliente"
+                                Routes.ClientDetails.route -> "Detalhes do Cliente"
+                                else -> ""
+                            },
+                            style = MaterialTheme.typography.titleLarge
+                        )
+                    },
+                    navigationIcon = if (screen != Routes.ClientList.route) {
+                        {
+                            IconButton(onClick = { navController.popBackStack() }) {
+                                Icon(
+                                    Icons.AutoMirrored.Filled.ArrowBack,
+                                    contentDescription = "Voltar"
+                                )
+                            }
+                        }
+                    } else {
+                        {}
+                    }
+                )
+            }
+        ) { padding ->
+            Column(
+                modifier = Modifier
+                    .padding(padding)
+                    .padding(horizontal = 16.dp)
+                    .fillMaxSize()
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.clientes),
+                    contentDescription = "Logo Clientes",
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.primary)
-                        .padding(bottom = 4.dp)
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.clientes),
-                        contentDescription = "Logo Clientes",
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .heightIn(min = 200.dp)
-                            .aspectRatio(16 / 9f),
-                        contentScale = ContentScale.FillWidth
-                    )
+                        .heightIn(min = 180.dp)
+                        .aspectRatio(16 / 9f),
+                    contentScale = ContentScale.FillWidth
+                )
 
-                    Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(8.dp))
 
-                    Text(
-                        text = when (screen) {
-                            Routes.ClientList.route -> "Lista de Clientes"
-                            Routes.ClientCreate.route -> "Cadastrar Cliente"
-                            Routes.ClientEdit.route -> "Editar Cliente"
-                            Routes.ClientDetails.route -> "Detalhes do Cliente"
-                            else -> ""
-                        },
-                        style = MaterialTheme.typography.titleLarge.copy(
-                            color = MaterialTheme.colorScheme.onPrimary,
-                            fontSize = 20.sp
-                        ),
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp)
-                            .padding(bottom = 4.dp)
-                    )
-
-                    if (screen != Routes.ClientList.route) {
-                        TopAppBar(
-                            title = {},
-                            navigationIcon = {
-                                IconButton(onClick = { navController.popBackStack() }) {
-                                    Icon(
-                                        Icons.AutoMirrored.Filled.ArrowBack,
-                                        contentDescription = "Voltar",
-                                        tint = MaterialTheme.colorScheme.onPrimary
-                                    )
-                                }
-                            },
-                            colors = TopAppBarDefaults.topAppBarColors(
-                                containerColor = MaterialTheme.colorScheme.primary,
-                                navigationIconContentColor = MaterialTheme.colorScheme.onPrimary
-                            ),
-                            modifier = Modifier.padding(bottom = 0.dp)
-                        )
-                    }
-                }
-            }
-
-        ) { padding ->
-            Box(modifier = Modifier
-                .padding(padding)
-                .padding(horizontal = 16.dp, vertical = 0.dp)) {
                 when (screen) {
                     Routes.ClientList.route -> ListClientScreen(
                         padding,
                         navController,
                         listClientViewModel
                     )
+
                     Routes.ClientCreate.route -> CreateClientScreen(
                         padding,
                         navController,
                         createClientViewModel
                     )
+
                     Routes.ClientEdit.route -> {
                         additionalContent?.invoke()
                     }
