@@ -15,6 +15,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 
@@ -30,8 +31,13 @@ fun ClientDetailsScreen(
         .fillMaxSize()
     ) {
         clientState?.let { client ->
-            Text("Detalhes do Cliente", style = MaterialTheme.typography.titleLarge)
-            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                "Detalhes do Cliente",
+                style = MaterialTheme.typography.titleMedium,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+            Spacer(modifier = Modifier.height(8.dp))
 
             DetailItem("ID", client.id)
             DetailItem("Nome", client.name)

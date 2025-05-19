@@ -22,7 +22,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.gerenciadorclientes.R
 import com.example.gerenciadorclientes.base.Routes
@@ -47,18 +49,19 @@ class CallScaffold(val navController: NavController, val localData: SharedPrefer
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(MaterialTheme.colorScheme.primary)
+                        .padding(bottom = 4.dp)
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.clientes),
                         contentDescription = "Logo Clientes",
                         modifier = Modifier
                             .fillMaxWidth()
-                            .heightIn(min = 280.dp)
+                            .heightIn(min = 200.dp)
                             .aspectRatio(16 / 9f),
                         contentScale = ContentScale.FillWidth
                     )
 
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(4.dp))
 
                     Text(
                         text = when (screen) {
@@ -68,10 +71,15 @@ class CallScaffold(val navController: NavController, val localData: SharedPrefer
                             Routes.ClientDetails.route -> "Detalhes do Cliente"
                             else -> ""
                         },
-                        style = MaterialTheme.typography.headlineMedium.copy(color = MaterialTheme.colorScheme.onPrimary),
+                        style = MaterialTheme.typography.titleLarge.copy(
+                            color = MaterialTheme.colorScheme.onPrimary,
+                            fontSize = 20.sp
+                        ),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
                         modifier = Modifier
                             .padding(horizontal = 16.dp)
-                            .padding(bottom = 8.dp)
+                            .padding(bottom = 4.dp)
                     )
 
                     if (screen != Routes.ClientList.route) {
@@ -89,13 +97,17 @@ class CallScaffold(val navController: NavController, val localData: SharedPrefer
                             colors = TopAppBarDefaults.topAppBarColors(
                                 containerColor = MaterialTheme.colorScheme.primary,
                                 navigationIconContentColor = MaterialTheme.colorScheme.onPrimary
-                            )
+                            ),
+                            modifier = Modifier.padding(bottom = 0.dp)
                         )
                     }
                 }
             }
+
         ) { padding ->
-            Box(modifier = Modifier.padding(padding)) {
+            Box(modifier = Modifier
+                .padding(padding)
+                .padding(horizontal = 16.dp, vertical = 8.dp)) {
                 when (screen) {
                     Routes.ClientList.route -> ListClientScreen(
                         padding,
