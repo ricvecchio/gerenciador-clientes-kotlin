@@ -14,6 +14,11 @@ class EditClientViewModel(val localData: SharedPreferences) : ViewModel() {
     val phone = MutableStateFlow("")
     val address = MutableStateFlow("")
 
+    val nameError = MutableStateFlow<String?>(null)
+    val emailError = MutableStateFlow<String?>(null)
+    val phoneError = MutableStateFlow<String?>(null)
+    val addressError = MutableStateFlow<String?>(null)
+
     fun loadClient(id: String) {
         localData.getClientById(id)?.let { client ->
             _client.value = client
@@ -26,7 +31,39 @@ class EditClientViewModel(val localData: SharedPreferences) : ViewModel() {
         }
     }
 
-    fun saveClient() {
+    fun saveClient(onSuccess: () -> Unit): Boolean {
+        var hasError = false
+
+        if (name.value.isBlank()) {
+            nameError.value = "Nome é obrigatório"
+            hasError = true
+        } else {
+            nameError.value = null
+        }
+
+        if (email.value.isBlank()) {
+            emailError.value = "Email é obrigatório"
+            hasError = true
+        } else {
+            emailError.value = null
+        }
+
+        if (phone.value.isBlank()) {
+            phoneError.value = "Telefone é obrigatório"
+            hasError = true
+        } else {
+            phoneError.value = null
+        }
+
+        if (address.value.isBlank()) {
+            addressError.value = "Endereço é obrigatório"
+            hasError = true
+        } else {
+            addressError.value = null
+        }
+
+        if (hasError) return false
+
         _client.value?.let { currentClient ->
             val updatedClient = currentClient.copy(
                 name = name.value,
@@ -36,6 +73,9 @@ class EditClientViewModel(val localData: SharedPreferences) : ViewModel() {
             )
             localData.saveClient(updatedClient)
             _client.value = updatedClient
+            onSuccess()
         }
+
+        return true
     }
 }

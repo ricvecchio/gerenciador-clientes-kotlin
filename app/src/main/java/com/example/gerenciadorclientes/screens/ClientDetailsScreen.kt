@@ -26,9 +26,10 @@ fun ClientDetailsScreen(
 ) {
     val clientState by viewModel.client.collectAsState()
 
-    Column(modifier = Modifier
-        .padding(16.dp)
-        .fillMaxSize()
+    Column(
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxSize()
     ) {
         clientState?.let { client ->
             Text(

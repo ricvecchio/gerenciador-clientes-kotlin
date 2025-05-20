@@ -6,5 +6,3 @@ class Constants {
         const val CLIENT_ID_COUNTER = "client_id_counter"
     }
 }
-
-

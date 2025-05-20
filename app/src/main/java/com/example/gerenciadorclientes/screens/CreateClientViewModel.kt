@@ -4,8 +4,6 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.gerenciadorclientes.model.SharedPreferences
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 
 class CreateClientViewModel(private val localData: SharedPreferences) : ViewModel() {
 
@@ -21,7 +19,6 @@ class CreateClientViewModel(private val localData: SharedPreferences) : ViewMode
     private val _address = mutableStateOf("")
     val address: State<String> = _address
 
-    // Estados de erro
     private val _nameError = mutableStateOf<String?>(null)
     val nameError: State<String?> = _nameError
 

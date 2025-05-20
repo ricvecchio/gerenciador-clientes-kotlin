@@ -18,7 +18,9 @@ class SharedPreferences(context: Context) {
         val email: String,
         val phone: String,
         val address: String,
-        val registrationDate: String = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
+        val registrationDate: String = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(
+            Date()
+        )
     )
 
     fun getNextId(): String {
@@ -70,14 +72,16 @@ class SharedPreferences(context: Context) {
 
             for (i in 0 until jsonArray.length()) {
                 val jsonObject = jsonArray.getJSONObject(i)
-                clients.add(Client(
-                    id = jsonObject.getString("id"),
-                    name = jsonObject.getString("name"),
-                    email = jsonObject.getString("email"),
-                    phone = jsonObject.getString("phone"),
-                    address = jsonObject.getString("address"),
-                    registrationDate = jsonObject.getString("registrationDate")
-                ))
+                clients.add(
+                    Client(
+                        id = jsonObject.getString("id"),
+                        name = jsonObject.getString("name"),
+                        email = jsonObject.getString("email"),
+                        phone = jsonObject.getString("phone"),
+                        address = jsonObject.getString("address"),
+                        registrationDate = jsonObject.getString("registrationDate")
+                    )
+                )
             }
 
             clients

@@ -12,7 +12,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.gerenciadorclientes.model.SharedPreferences
-import com.example.gerenciadorclientes.screens.ClientDetailsScreen
 import com.example.gerenciadorclientes.screens.EditClientScreen
 import com.example.gerenciadorclientes.screens.EditClientViewModel
 
@@ -45,7 +44,6 @@ class Navigation {
 
                 CallScaffold(navController = navController, localData = localData)
                     .CreateScreen(screen = Routes.ClientEdit.route) {
-                        // Conteúdo extra, que pode ser o EditClientScreen dentro do Scaffold
                         EditClientScreen(
                             paddingValues = PaddingValues(),
                             navController = navController,
